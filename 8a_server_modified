@@ -8,6 +8,13 @@ from EmotionDetection import emotion_detector
 
 app = Flask(__name__)
 
+@app.route("/")
+def index():
+    """
+    Render the main index page for the web app.
+    """
+    return render_template("index.html")
+    
 @app.route("/emotionDetector", methods=["GET"])
 def emotion_detector_route():
     """
@@ -24,10 +31,20 @@ def emotion_detector_route():
         return "Invalid text! Please try again!."
 
     # Extract the dominant emotion
+    anger = result["anger"]
+    disgust = result["disgust"]
+    fear = result["fear"]
+    joy = result["joy"]
+    sadness = result["sadness"]
     dominant_emotion = result["dominant_emotion"]
 
     # Build the required output string
-    response = f"For the given statement, the system response is '{dominant_emotion}'."
+    response = (
+        f"For the given statement, the system response is "
+        f"'anger': {anger}, 'disgust': {disgust}, 'fear': {fear}, "
+        f"'joy': {joy} and 'sadness': {sadness}. "
+        f"The dominant emotion is {dominant}."
+    )
 
     return response
 
